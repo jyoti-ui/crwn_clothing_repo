@@ -5,7 +5,7 @@ import ShopPage from './pages/shop/shoppage.component';
 import Header from './component/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import {Route, Switch} from 'react-router-dom';
-import {auth} from './firebase/firebase.utils';
+import {auth , createUserProfileDocument} from './firebase/firebase.utils';
 
 // const HatsPage = () => (
 //   <div>
@@ -25,10 +25,35 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser : user})
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async user => {
+      // this.setState({ currentUser : user})
+      // console.log(user);
+      createUserProfileDocument(user);
       console.log(user);
+      // console.log(userAuth);
+      // if(userAuth){
+      //   const userRef = await createUserProfileDocument(userAuth);
+
+      //   userRef.onSnapshot(snapShot => {
+      //     this.setState({
+      //       currentUser : {
+      //         id : snapShot.id,
+      //         ...snapShot.data()
+      //       }
+      //     }, () => {
+      //       console.log(this.state);
+      //     })
+      //     // console.log(snapShot.data());
+      //   })
+      // }
+      // else {
+      //   this.setState({
+      //     currentUser : userAuth
+      //   })
+      // }
     })
+
+    console.log(this.state);
   }
 
   componentWillUnmount() {
