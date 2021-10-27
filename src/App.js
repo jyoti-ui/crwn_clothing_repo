@@ -1,11 +1,13 @@
 import './App.css';
 import React from 'react';
+import { connect } from 'react-redux';
 import Homepage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shoppage.component';
 import Header from './component/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import {Route, Switch} from 'react-router-dom';
 import {auth , createUserProfileDocument} from './firebase/firebase.utils';
+import { setCurrentUser } from './redux/user/user.actions';
 
 // const HatsPage = () => (
 //   <div>
@@ -18,7 +20,7 @@ class App extends React.Component {
     super();
 
     this.state = {
-      currentUser : null
+      setCurrentUser : null
     }
   }
 
@@ -63,7 +65,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header currentUser={this.state.currentUser}/>
+        <Header/>
         <Switch>
           <Route exact path='/' component={Homepage} />
           <Route path='/shop' component={ShopPage}/>
@@ -74,4 +76,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser : user => dispatch(setCurrentUser(user))
+})
+
+export default connect(null, mapDispatchToProps)(App);
